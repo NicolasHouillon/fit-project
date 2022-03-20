@@ -206,6 +206,16 @@ class MusclesFixtures extends Fixture
         $gracile->setMuscleGroup($adducteurs);
         $manager->persist($gracile);
 
+        # abducteurs
+        $abducteurs = new MuscleGroup();
+        $abducteurs->setName("abducteurs");
+        $manager->persist($abducteurs);
+
+        $fasciaLata = new Muscle();
+        $fasciaLata->setName("fascia lata");
+        $fasciaLata->setMuscleGroup($abducteurs);
+        $manager->persist($fasciaLata);
+
         # fessiers
         $fessiers = new MuscleGroup();
         $fessiers->setName("fessiers");
