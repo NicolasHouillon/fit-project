@@ -34,10 +34,16 @@ class MuscleGroup
      */
     private $trainings;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Exercise::class, mappedBy="muscleGroups")
+     */
+    private $exercises;
+
     public function __construct()
     {
         $this->muscles = new ArrayCollection();
         $this->trainings = new ArrayCollection();
+        $this->exercises = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -109,6 +115,33 @@ class MuscleGroup
     {
         if ($this->trainings->removeElement($training)) {
             $training->removeMuscleGroup($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Exercise>
+     */
+    public function getExercises(): Collection
+    {
+        return $this->exercises;
+    }
+
+    public function addExercise(Exercise $exercise): self
+    {
+        if (!$this->exercises->contains($exercise)) {
+            $this->exercises[] = $exercise;
+            $exercise->addMuscleGroup($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExercise(Exercise $exercise): self
+    {
+        if ($this->exercises->removeElement($exercise)) {
+            $exercise->removeMuscleGroup($this);
         }
 
         return $this;

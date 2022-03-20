@@ -39,9 +39,15 @@ class Exercise
      */
     private $description;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=MuscleGroup::class, inversedBy="exercises")
+     */
+    private $muscleGroups;
+
     public function __construct()
     {
         $this->muscles = new ArrayCollection();
+        $this->muscleGroups = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -105,6 +111,30 @@ class Exercise
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MuscleGroup>
+     */
+    public function getMuscleGroups(): Collection
+    {
+        return $this->muscleGroups;
+    }
+
+    public function addMuscleGroup(MuscleGroup $muscleGroup): self
+    {
+        if (!$this->muscleGroups->contains($muscleGroup)) {
+            $this->muscleGroups[] = $muscleGroup;
+        }
+
+        return $this;
+    }
+
+    public function removeMuscleGroup(MuscleGroup $muscleGroup): self
+    {
+        $this->muscleGroups->removeElement($muscleGroup);
 
         return $this;
     }
